@@ -8,7 +8,7 @@
 
 package net.esb.entity.element.component;
 
-import static net.esb.entity.common.ElementStandardIcon.SMILEY;
+import static net.esb.entity.common.ElementStandardIcon.*;
 
 import org.springframework.stereotype.Component;
 

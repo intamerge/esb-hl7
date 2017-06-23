@@ -8,15 +8,8 @@
 
 package net.esb.entity.element.connector;
 
-import static net.esb.entity.element.common.ElementHL7Constants.PROP_DISABLEVALIDATION;
-import static net.esb.entity.element.common.ElementHL7Constants.PROP_OUTPUT_TYPE;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_HOST;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_PORT;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_TLS;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_TLS_KEYSTORE;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_TLS_KEYSTORE_PASSWORD;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_TLS_TRUSTSTORE;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_TLS_TRUSTSTORE_PASSWORD;
+import static net.esb.entity.element.common.ElementHL7Constants.*;
+import static net.esb.entity.element.common.ElementNetworkConstants.*;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

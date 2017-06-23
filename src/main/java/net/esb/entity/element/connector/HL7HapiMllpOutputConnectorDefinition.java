@@ -8,19 +8,10 @@
 
 package net.esb.entity.element.connector;
 
-import static net.esb.entity.common.EntityConfigurationProperty.ElementPropertyType.BOOLEAN;
-import static net.esb.entity.common.EntityConfigurationProperty.ElementPropertyType.CHOICE;
-import static net.esb.entity.common.EntityConfigurationProperty.ElementPropertyType.INTEGER;
-import static net.esb.entity.common.EntityConfigurationProperty.ElementPropertyType.STRING;
-import static net.esb.entity.common.ElementStandardIcon.SMILEY_OUTPUT;
-import static net.esb.entity.element.common.ElementHL7Constants.PROP_DISABLEVALIDATION;
-import static net.esb.entity.element.common.ElementHL7Constants.PROP_DISABLEVALIDATION_DESC;
-import static net.esb.entity.element.common.ElementHL7Constants.PROP_OUTPUT_TYPE;
-import static net.esb.entity.element.common.ElementHL7Constants.PROP_OUTPUT_TYPE_DESC;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_HOST;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_HOST_DESC;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_PORT;
-import static net.esb.entity.element.common.ElementNetworkConstants.PROP_PORT_DESC;
+import static net.esb.entity.common.EntityConfigurationProperty.ElementPropertyType.*;
+import static net.esb.entity.common.ElementStandardIcon.*;
+import static net.esb.entity.element.common.ElementHL7Constants.*;
+import static net.esb.entity.element.common.ElementNetworkConstants.*;
 
 import org.springframework.stereotype.Component;
 
@@ -53,7 +44,7 @@ public class HL7HapiMllpOutputConnectorDefinition extends AbstractConnectorDefin
 		configurationProperties.add(new EntityConfigurationProperty(PROP_HOST, PROP_HOST_DESC, STRING, NOTREADONLY, 50));
 		configurationProperties.add(new EntityConfigurationProperty(PROP_PORT, PROP_PORT_DESC, INTEGER, NOTREADONLY, 51));
 		
-		EntityConfigurationProperty operation = new EntityConfigurationProperty(PROP_OUTPUT_TYPE, PROP_OUTPUT_TYPE_DESC, CHOICE, READONLY, 52);
+		EntityConfigurationProperty operation = new EntityConfigurationProperty(PROP_OUTPUT_TYPE, PROP_OUTPUT_TYPE_DESC, CHOICE, NOTREADONLY, 52);
 		operation.setChoices(choicesMapFromEnum(ElementHL7Constants.OUTPUT_TYPE.class, null));
 		configurationProperties.add(operation); 
 
