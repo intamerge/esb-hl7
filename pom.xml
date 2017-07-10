@@ -7,12 +7,21 @@
 	<artifactId>esb-hl7</artifactId>
 	<packaging>jar</packaging>
 	<name>Intamerge HL7</name>
-	<version>1.0.7</version>
+	<!-- %AUTO-REPLACE-START% --><version>1.0.8</version><!-- %AUTO-REPLACE-END% -->
 	<groupId>net.esb</groupId>
 
-	<url>http://www.intamerge.com</url>
+	<url>http://www.intamerge.com</url>	
+	
+	<organization>
+		<name>Intamerge &lt;info@intamerge.com&gt;</name>
+		<url>http://www.intamerge.com</url>
+	</organization>
+
+	<inceptionYear>2016</inceptionYear>
 
 	<properties>
+		<copyrightOwner>Intamerge</copyrightOwner>
+		<currentYear>2017</currentYear>
 		<fasterxml.jackson.version>2.6.5</fasterxml.jackson.version>
 		<spring.version>4.3.6.RELEASE</spring.version>
 		<java.version>1.8</java.version>
@@ -26,6 +35,10 @@
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.2</maven-jar-plugin.version>
 		<slf4j-api.version>1.7.12</slf4j-api.version>
+		<codemodel.version>2.6</codemodel.version>
+		<ant-contrib.version>1.0b3</ant-contrib.version>
+		<ant-nodeps.version>1.6.5</ant-nodeps.version>
+		<org.eclipse.jgit.version>2.3.1.201302201838-r</org.eclipse.jgit.version>
 	</properties>
 
 	<dependencies>
@@ -35,8 +48,40 @@
 		<dependency>
 			<groupId>net.esb</groupId>
 			<artifactId>esb-common</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.8</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- ================= Build ================= -->
+
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>${org.eclipse.jgit.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.codemodel</groupId>
+			<artifactId>codemodel</artifactId>
+			<version>${codemodel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ant-contrib</groupId>
+			<artifactId>ant-contrib</artifactId>
+			<version>${ant-contrib.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>ant</groupId>
+					<artifactId>ant</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>ant</groupId>
+			<artifactId>ant-nodeps</artifactId>
+			<version>${ant-nodeps.version}</version>
 		</dependency>
 
 		<!-- ================= Json ================= -->
@@ -54,13 +99,8 @@
 		</dependency>
 		<!-- ================= Other ================= -->
 
-<!-- port checker
-		<dependency>
-		    <groupId>org.apache.mina</groupId>
-		    <artifactId>mina-core</artifactId>
-		    <version>	2.0.0-M6</version>
-		</dependency>
--->
+		<!-- port checker <dependency> <groupId>org.apache.mina</groupId> <artifactId>mina-core</artifactId> 
+			<version> 2.0.0-M6</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -152,6 +192,43 @@
 
 	<build>
 		<plugins>
+		
+							<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.8.0</version>
+				<configuration>
+					<!-- Template location -->
+					<header>src/main/resources/fileHeader.txt</header>
+					<properties>
+						<!-- Values to be substituted in template -->
+						<h_inceptionYear>${project.inceptionYear}</h_inceptionYear>
+						<h_currentYear>${currentYear}</h_currentYear>
+						<h_copyrightOwner>${copyrightOwner}</h_copyrightOwner>
+						<h_organisationUrl>${project.organization.url}</h_organisationUrl>
+					</properties>
+					<strictCheck>true</strictCheck>
+					<includes>
+						<include>src/main/java/**/*.java</include>
+						<include>src/main/webapp/js/**/*.js</include>
+						<include>src/main/webapp/css/**/*.css</include>
+						<include>src/main/webapp/views/**/*.jsp</include>
+						<include>src/main/webapp/WEB-INF/jsp/**/*.jsp</include>
+						<include>COPYRIGHT.txt</include>
+					</includes>
+					<excludes>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -171,7 +248,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<version>${maven-dependency-plugin.version}</version>
@@ -261,7 +338,8 @@
 		<pluginManagement>
 			<plugins>
 
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -289,7 +367,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<releases>

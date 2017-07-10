@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2016 Intamerge http://www.intamerge.com
+ * Copyright (c) 2016-2017 Intamerge http://www.intamerge.com
  * All Rights Reserved.
  *
  * This source code is licensed under AGPLv3 and allows you to freely download and use this source:  Try it free !

@@ -1,0 +1,198 @@
+<!DOCTYPE project>
+<project name="esb-hl7" default="version" basedir=".">
+	
+	<property name="git_work_tree" value=""/><!-- comes from prog args -Dgit_work_tree=${git_work_tree} -->
+	<property name="project_loc" value=""/><!-- comes from prog args -Dproject_loc=${project_loc} -->
+	
+	<property name="src" value="${project_loc}/src/"/>
+	<property name="resources" value="${project_loc}/src/main/resources"/>
+	<property name="build.info.class" value="${project_loc}/src/main/net/esb/build/BuildInfo.java"/>
+	<property name="build.info.folder" value="${project_loc}"/>
+	<property name="version.property.file" value="${project_loc}/version.property"/>
+	<property name="build.property.file" value="${project_loc}/build.property"/>
+	<property name="scm.system" value="git"/>
+	<property name="nl"  value="&#13;&#10;"/>
+	
+	<property file="${version.property.file}"/>
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+	  <classpath>
+	    <pathelement location="lib/Ant/ant-contrib-1.0b2.jar"/>
+	  </classpath>
+	</taskdef>
+	
+	<path id="java.path">
+	  <pathelement location="lib/Logging/slf4j-api-1.7.13.jar"/>
+		<fileset dir="classes">
+		    <include name="**/*"/>
+		  </fileset>
+	</path>
+	
+	<property name="isSubversion" value="false" />
+
+	<macrodef name="copythings">
+	  <attribute name="todir"/>
+	  <sequential>
+	    <copy todir="@{todir}" overwrite="true" filtering="true">
+			<fileset dir="${build.info.folder}">
+				<include name="build.property"/>
+				<include name="name.property"/>
+				<include name="version.property"/>
+			</fileset>
+	    	
+	    	<filterchain>
+	    		<filterreader classname="org.apache.tools.ant.filters.StripLineComments">
+	    		  <param type="comment" value="#"/>
+	    		  <param type="comment" value="--"/>
+	    		  <param type="comment" value="//"/>
+	    		</filterreader>
+
+	    	</filterchain>
+	    </copy>
+	  </sequential>
+	</macrodef>
+	
+	<target name="headers">
+	
+		<fileset id="fileHeader-gpl" file="${src}/external/resources/fileHeader/fileHeader-gpl.txt"/>
+
+		<copy tofile="${src}/main/resources/fileHeader.txt" overwrite="true" filtering="true">
+			<fileset refid="fileHeader-gpl"/>
+		</copy>
+
+
+	</target>
+	
+	<target name="version">
+	    <echo>Generate build info class for version ${version.property}</echo>
+		
+		
+		<if>
+		<equals arg1="${isSubversion}" arg2="true"/>
+		<then>
+			<echo>Use subversion = ${isSubversion}</echo>
+		</then>
+		<else>
+			<echo>Use git = true</echo>
+		</else>
+		</if>
+
+		<antcallback target="getrevision" return="scm.revision"/>
+
+	    <tstamp>
+	        <format property="TODAY" pattern="EEE, d-MMMM-yyyy HH:mm:ss z" locale="ENGLISH"/>
+	    </tstamp>
+		
+		<echo>Version: ${version.property}</echo>
+	    <echo>Build Number: ${scm.revision}</echo>
+	    <echo>Time stamp: ${TODAY}</echo>
+		
+		<antcall target="writeproperties" />
+		
+		<antcall target="generatebuildinfoclass" />
+		
+		<copythings todir="${resources}"/>
+		
+	</target>
+		
+	<target name="getrevision">
+		
+		<if>
+		<equals arg1="${isSubversion}" arg2="true"/>
+		<then>
+			
+		</then>
+		<else>
+			<antcallback target="getrevision-git" return="scm.revision"/>
+		</else>
+		</if>
+		
+		<echo>result of callback=${scm.revision}</echo>
+
+	</target>
+	
+	<target name="getrevision-git">
+
+		<java failonerror="false" resultproperty="result.property" classname="scripts.build.GetBuildRevision" >
+			<arg value="${git_work_tree}"/>
+	         <classpath>	           
+	           <pathelement path="${project_loc}/target/classes"/>
+	         	<pathelement path="${project_loc}/lib/JGit/org.eclipse.jgit-2.3.1.201302201838-r.jar"/>
+	         </classpath>
+		</java>
+
+		<property name="scm.revision" value="${result.property}"/>
+		<echo>scm.revision=${scm.revision}</echo>
+	</target>
+	
+	
+
+	
+	<target name="writeproperties">
+		
+		<echo>Write build info to file ${build.property.file}</echo>
+		<!-- dont format this - it has to look like this! -->
+		<echo file="${build.property.file}"># automatically set by build.xml${nl}build.number=${scm.revision}</echo>
+
+		<echo>git_work_tree=${git_work_tree}</echo>
+		
+		<path id="example.path">
+			<fileset dir="${project_loc}" >
+				<include name="pom.xml"/>
+			</fileset>
+		 </path>
+
+	    <!-- Format path -->
+	    <pathconvert pathsep="${line.separator}|   |-- "             
+	        property="echo.path.compile"             
+	        refid="example.path">
+	    </pathconvert>
+		
+	    <echo>echo.path.compile=${echo.path.compile}</echo>
+			
+		<replaceregexp 
+			match="&lt;!-- %AUTO-REPLACE-START% --&gt;[\s\r\n]*&lt;version&gt;(.*)&lt;/version&gt;[\s\r\n]*&lt;[\s\r\n]*!-- %AUTO-REPLACE-END% --&gt;"
+				        replace="&lt;!-- %AUTO-REPLACE-START% --&gt;&lt;version&gt;${version.property}&lt;/version&gt;&lt;!-- %AUTO-REPLACE-END% --&gt;"
+				        byline="false"
+						flags="gis" 
+			>
+
+			<fileset dir="${project_loc}" >
+				<include name="pom.xml"/>		
+			</fileset>
+
+	</replaceregexp>
+		
+
+
+	</target>
+	
+	<target name="generatebuildinfoclass">
+		<echo>generate BuildInfo class using ${scm.revision}</echo>
+		<echo>${project_loc} arg value="${project_loc}"</echo>
+		<echo>${git_work_tree} arg value="${git_work_tree}"</echo>
+		<echo>${scm.revision} arg value="${scm.revision}"</echo>
+		
+		<java failonerror="false" resultproperty="result.property" classname="scripts.build.GenerateBuildVersionClass">
+			<arg value="${project_loc}"/>
+			<arg value="${git_work_tree}"/>
+			<arg value="${scm.revision}"/>
+			<arg value="''"/>
+			<arg value="Intamerge"/>
+	         <classpath>	           
+	           <pathelement path="${project_loc}/target/classes"/>
+	           <pathelement path="${project_loc}/lib/CodeModel/codemodel-2.6.jar"/>
+	         </classpath>
+		</java>
+		
+		 <copy todir="${src}/main/java" overwrite="true">
+		      <fileset dir="${src}/main/java/">
+		        <include name="**/BuildInfo.java"/>
+		      </fileset>
+		    </copy>
+		
+	</target>
+	
+
+
+</project>
