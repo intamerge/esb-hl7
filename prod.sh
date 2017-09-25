@@ -4,6 +4,24 @@ else
     . ./setenv.sh
 fi
 
+echo ------------------------------------------------------------------------
+echo Set the version from version.property
+echo ------------------------------------------------------------------------
+
+cd ~Dev/git/intamerge-github/esb-hl7
+ant -Dgit_work_tree=/home/mwicks/Dev/git/intamerge-github/esb-hl7 -Dproject_loc=/home/mwicks/Dev/git/intamerge-github/esb-hl7 version
+
+echo ------------------------------------------------------------------------
+echo Set the license
+echo ------------------------------------------------------------------------
+
+ant -Dgit_work_tree=/home/mwicks/Dev/git/intamerge-github/esb-hl7 -Dproject_loc=/home/mwicks/Dev/git/intamerge-github/esb-hl7 headers
+mvn license:format
+
+echo ------------------------------------------------------------------------
+echo Build
+echo ------------------------------------------------------------------------
+
 rm -fr target/esb-hl7*
 
 # note -P community is the prod version for community release

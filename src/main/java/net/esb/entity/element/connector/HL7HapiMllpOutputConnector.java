@@ -44,12 +44,15 @@ public class HL7HapiMllpOutputConnector extends AbstractMapOutputConnector<HL7Ha
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_HOST) 
     public String host = "0.0.0.0";
 	
+	// this is a string here to allow variable interpolation
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_DISABLEVALIDATION)
 	public String disableValidation = "" + Boolean.TRUE;
 	
+	// this is a string here to allow variable interpolation
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_PORT) 
     public String port = "" + -1;
 	
+	// this is a string here to allow variable interpolation
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_TLS) 
 	public String tls = "" + Boolean.FALSE;
 	
@@ -84,13 +87,19 @@ public class HL7HapiMllpOutputConnector extends AbstractMapOutputConnector<HL7Ha
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void sinkAsynchronousOutputMapRequest(IMapMessage message, IMapElementContext context){}
+	protected void sinkAsynchronousOutputMapRequest(IMapMessage message, IMapElementContext context) throws Exception{
+		sinkMessageImpl(message, context);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected IMapMessage sinkSynchronousOutputMapRequest(IMapMessage requestMessage, IMapElementContext context) throws Exception{
+	protected IMapMessage sinkSynchronousOutputMapRequest(IMapMessage message, IMapElementContext context) throws Exception{
+		return sinkMessageImpl(message, context);
+	}
+	
+	IMapMessage sinkMessageImpl(IMapMessage requestMessage, IMapElementContext context) throws Exception {
 		 connect(); // apparently you can call this multiple times
 		 
 		 // The initiator is used to transmit unsolicited messages
@@ -101,10 +110,10 @@ public class HL7HapiMllpOutputConnector extends AbstractMapOutputConnector<HL7Ha
 		 IMapMessage responseMessage = HL7Utils.esbMessageFromHapiMessage(output, getMap(), hapiContext, hapiResponseMessage);
 		 
 		 getMap().transferProperties(requestMessage, responseMessage);
-
+		 
 		 return responseMessage;
 	}
-	
+
 	protected void connect() throws Exception{
 		
 		String _host = getMap().<String>parseProperty(String.class, getHost());

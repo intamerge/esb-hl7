@@ -47,15 +47,18 @@ public class HL7HapiMllpInputConnector extends AbstractMapInputConnector<HL7Hapi
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_HOST) 
     public String host = "0.0.0.0";
 	
+	// this is a string here to allow variable interpolation
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_PORT) 
     public String port = "" + 8888;
 	
+	// this is a string here to allow variable interpolation
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_ACK) 
 	public String autoAck = "" + Boolean.FALSE;
 	
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_OUTPUT_TYPE) 
     public ElementHL7Constants.OUTPUT_TYPE output = ElementHL7Constants.OUTPUT_TYPE.PIPEHAT;
 	
+	// this is a string here to allow variable interpolation
 	@net.esb.entity.common.ElementDefinitionProperty(PROP_TLS) 
 	public String tls = "" + Boolean.FALSE;
 	
@@ -162,7 +165,11 @@ public class HL7HapiMllpInputConnector extends AbstractMapInputConnector<HL7Hapi
 		
 		//ServerSocket.setReuseAddress(true);
 		
-		_autoAck = this.<Boolean>parseStartProperty(Boolean.class, getAutoAck());
+		try {
+			_autoAck = this.<Boolean>parseTypedProperty(Boolean.class, getAutoAck());
+		} catch (Exception e) {
+			throw new EntityStartException(e);
+		}
 		Integer _port = null;
 		
 		try{
