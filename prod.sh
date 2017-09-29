@@ -8,7 +8,7 @@ echo ------------------------------------------------------------------------
 echo Set the version from version.property
 echo ------------------------------------------------------------------------
 
-cd ~Dev/git/intamerge-github/esb-hl7
+cd ~/Dev/git/intamerge-github/esb-hl7
 ant -Dgit_work_tree=/home/mwicks/Dev/git/intamerge-github/esb-hl7 -Dproject_loc=/home/mwicks/Dev/git/intamerge-github/esb-hl7 version
 
 echo ------------------------------------------------------------------------

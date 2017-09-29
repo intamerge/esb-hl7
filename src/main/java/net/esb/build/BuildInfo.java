@@ -17,9 +17,9 @@ package net.esb.build;
  */
 public class BuildInfo {
 
-    private final String revisionNumber = "4";
+    private final String revisionNumber = "5";
     private final String productName = "Intamerge";
-    private final String timeStamp = "Mon, 25-September-2017 11:10:38 BST";
+    private final String timeStamp = "Fri, 29-September-2017 14:47:32 BST";
     private final String year = "2017";
     private final String version = "1.0.9";
     private final String name = "1.0.8";
