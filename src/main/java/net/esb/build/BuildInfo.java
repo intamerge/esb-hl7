@@ -17,12 +17,12 @@ package net.esb.build;
  */
 public class BuildInfo {
 
-    private final String revisionNumber = "5";
+    private final String revisionNumber = "6";
     private final String productName = "Intamerge";
-    private final String timeStamp = "Fri, 29-September-2017 14:47:32 BST";
+    private final String timeStamp = "Wed, 13-December-2017 10:21:31 GMT";
     private final String year = "2017";
-    private final String version = "1.0.9";
-    private final String name = "1.0.8";
+    private final String version = "1.1.0";
+    private final String name = "1.1.0";
     private final static BuildInfo buildInfo = new BuildInfo();
 
     public static BuildInfo buildInfo() {

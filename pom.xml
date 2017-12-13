@@ -7,7 +7,7 @@
 	<artifactId>esb-hl7</artifactId>
 	<packaging>jar</packaging>
 	<name>Intamerge HL7</name>
-	<!-- %AUTO-REPLACE-START% --><version>1.0.9</version><!-- %AUTO-REPLACE-END% -->
+	<!-- %AUTO-REPLACE-START% --><version>1.1.0</version><!-- %AUTO-REPLACE-END% -->
 	<groupId>net.esb</groupId>
 
 	<url>http://www.intamerge.com</url>	
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>net.esb</groupId>
 			<artifactId>esb-common</artifactId>
-			<version>1.0.9</version>
+			<version>1.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -299,40 +299,40 @@
 
 
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<compilerArgument>-Xlint:all</compilerArgument>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<version>${maven-compiler-plugin.version}</version>
+	<configuration>
+		<compilerArgument>-Xlint:all</compilerArgument>
+		<showWarnings>true</showWarnings>
+		<showDeprecation>true</showDeprecation>
+		<source>${java.version}</source>
+		<target>${java.version}</target>
+		<encoding>${project.build.sourceEncoding}</encoding>
 
-					<systemPropertyVariables>
-						<maven.wagon.http.ssl.insecure>true</maven.wagon.http.ssl.insecure>
-						<maven.wagon.http.ssl.ignore.validity.dates>true</maven.wagon.http.ssl.ignore.validity.dates>
-					</systemPropertyVariables>
+		<systemPropertyVariables>
+			<maven.wagon.http.ssl.insecure>true</maven.wagon.http.ssl.insecure>
+			<maven.wagon.http.ssl.ignore.validity.dates>true</maven.wagon.http.ssl.ignore.validity.dates>
+		</systemPropertyVariables>
 
-				</configuration>
-			</plugin>
+	</configuration>
+</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jar-plugin</artifactId>
 
-				<version>${maven-jar-plugin.version}</version>
-				<configuration>
+	<version>${maven-jar-plugin.version}</version>
+	<configuration>
 
-					<useDefaultManifestFile>true</useDefaultManifestFile>
+		<useDefaultManifestFile>true</useDefaultManifestFile>
 
-				</configuration>
+	</configuration>
 
-			</plugin>
+</plugin>
 
-		</plugins>
+</plugins>
 
 
 		<pluginManagement>
